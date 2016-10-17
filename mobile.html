@@ -2,32 +2,47 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
 <script src="jquery/jquery-1.7.1.min.js" ></script>
-<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
 <script>
   $(function(){
 
       var j=0;
       var currentId;
 
-    $("body").bind('tap', function() {
+    $("body").bind('swipeleft', function() {
 
       currentId=$.mobile.activePage.attr('id');
 
      var nextId=$('#'+currentId).jqmData('next');
 
-    $.mobile.changePage('#'+nextId, {transition: "slide", reverse:true},false);
+    $.mobile.changePage('#'+nextId, {transition: "slide"},false);
 
-    console.log(currentId);
-    console.log(nextId);
 
+   }).bind('swiperight', function(event) {
+         currentId=$.mobile.activePage.attr('id');
+
+      var prevId=$('#'+currentId).jqmData('prev');
+
+       $.mobile.changePage('#'+prevId, {transition: "slide"},false);
+     
    });
 
-
-     function fadeH2(){$('.sectionOne  div h2').animate({top: '230px', opacity:'1'}, 2000);}
-
-     function fadeSpan(){   $('.sectionOne span').animate({width:'700px'}, 3000);}
+   $('body').bind('pageshow',  function(event) {
+               titleShow();
+               console.log('pageshow');
+   }).bind('pagebeforehide', function(event) {
+                titleClose();
+                console.log('pagehide');
+   });
+          
+    $('.sectionOne  div img').animate({top:'0px'}, 1000);
+   
+   
+   function fadeH2(){$('.sectionOne  div h2').fadeIn('2000');}
+    
              
      function fadeIn(){
                   
@@ -37,24 +52,58 @@
                     console.log(' i am mobile');
                 }
              
-       function  fadeP() {setInterval(fadeIn,500);   }
+    function  fadeP() {setInterval(fadeIn,500);   }
 
-        setTimeout(fadeH2 ,700);
-        setTimeout(fadeSpan,2000);
-        setTimeout(fadeP,2500);
-                     
+        setTimeout(fadeH2,1000);
+        setTimeout(fadeP,2000);
+       
+              function titleShow(){
+                 $('.title span').css('width', '50%');
+                   $('.title h5').fadeIn('3000'); 
+                
+                }      
+
+            function titleClose(){
+                  $('.title span').css('width', '0px');
+                  $('.title h5').fadeOut();
+            }
 });
 </script>
 </head>
 
 <style type="text/css">
+    .sectionOne {
+        position: relative;
+    }
+     .sectionOne span {
+      display: block;
+      height: 90px;
+     }
+     .sectionOne img {
+
+         width: 80px;
+         height: 80px;
+         border-radius: 50%;
+         position: absolute;
+         top: 100%;
+
+  }
+
+   .sectionOne h2 {
+      display: none;
+      text-align: center;
+   }
+
+  .sectionOne div {
+     text-align: center;
+  }
     .pageOne {
         width: 100%;
         height: 100%;
     }
     .content {
       width: 100%;
-      height: 70%;
+      height: 80%;
     }
 
   .sectionOne p{
@@ -72,28 +121,69 @@
     display: none;
 
   }
+h1 {
+  text-align: center;
+   
+}
+h5{
+  text-align: center;
+}
 
+ .title span{
+    
+      display: block;
+      width: 10px;
+      height: 2px;
+      margin: 0  auto;
+      background-color: red;
+      transition: width 2s;
+  }
+  .title h5 {
+    color: #a10000;
+    display: none;
+  }
+ #pagefour .bigImg > div {
+    background: url(infoIMG/list_bg.jpg) no-repeat;
+    height: 100%;
+    width:100%;
+ }
+ #pagetwo .info  li img{
+     margin-left: 50px;
+ }
+  #pagetwo .info  li div {
+        margin-left: 50px;
+  }
+  #pagethree .skillInfo img {
+        margin-left: 50px;
+  }
+  #pagethree .skillInfo div {
+       margin-left: 100px;
+  }
+
+  .sectionOne  p {
+    text-align: center;
+  }
+ 
 </style>
 </head>
 <body>
 
-<div data-role="page" id="pageone" class="pageOne" data-next='pagetwo'>
+<div data-role="page" id="pageone" class="pageOne" data-next='pagetwo' >
   <div data-role="header">
     <h1>欢迎来到我的主页</h1>
   </div>
 
-  <div data-role="main" class="ui-content content">
-    <p>欢迎! 点击以下链接跳转到第二个页面。 </p>
-  
-     
+  <div data-role="main" class="ui-content content" >
+    
     <div class="sectionOne" id="one"> 
-       <div> <img src=>
+       <div> <img src="infoIMG/job.jpg">
+             <span></span>
              <h2>生活就是不断尝试，寻找到自己的方向，然后一往无前。</h2>
        </div>
-       <span class="blank1"></span>
-       <div>  <p>我叫 simen </p>
+    
+       <div>  <p>我叫 全宏灿 </p>
 
-                  <p>25岁</p>
+                  <p>26岁</p>
 
                    <p>期待成为一名前端研发工程师 </p>
 
@@ -108,88 +198,101 @@
   </div>
 </div> 
 
-<div data-role="page" id="pagetwo" data-next='pagethree'>
-  <div data-role="header">
-    <h1>欢迎来到我的主页</h1>
-  </div>
+<div data-role="page" id="pagetwo" data-next='pagethree' data-prev="pageone">
+
 
   <div data-role="main" class="ui-content">
-    <p>这是第二个页面。点击以下链接跳转到第一个页面。</p>
-  
     <div class="sectionTwo" id="two">
-        <div class="infoTitle"><h1>关于我</h1>
+        <div class="infoTitle title"><h1>关于我</h1>
                                <span></span>
                                <h5>ABOUT ME</h5>
         </div>
         <div class="info"><ul data-role="listview" data-inset='true'>
 
                   <li> <a href="#"><img src="infoIMG/education.png">
+                        <div>
                          <h2>学历</h2>
                          <p>本科</p>
-                         </a></li>
-                  <li>  <div style=" background: url(infoIMG/age.png) no-repeat"</div>  <span>25岁</span> </li>
-                  <li>  <div style=" background: url(infoIMG/location.png) no-repeat"></div>  <span>现居广州</span> </li>
-                  <li>  <div style=" background: url(infoIMG/status.png) no-repeat"></div>  <span>已离职</span></li>
+                         </div>
+                      </a>
+                  </li>
+                   <li> <a href="#"><img src="infoIMG/age.png">
+                        <div>
+                         <h2>年龄</h2>
+                         <p>26</p>
+                         </div>
+                      </a>
+                  </li>
+                   <li> <a href="#"><img src="infoIMG/location.png">
+                         <div>
+                         <h2>居住</h2>
+                         <p>广州</p>
+                         </div>
+                      </a>
+                  </li>
+                   <li> <a href="#"><img src="infoIMG/status.png">
+                        <div>
+                         <h2>状态</h2>
+                         <p>离职</p>
+                         </div>
+                      </a>
+                  </li>
+
+
+               
                  
             </ul>
         </div>
-        <div class="infoTwo">
-           <div>
-             <p>2014年毕业于长沙大学 </p>
-               <p>代码让我找到自己的方向</p>
-               <p>缤彩纷澜的界面让人忍不住一探究竟</p>
-               <p> 兴趣让我一路找到前端门槛  </p>
-             </div>
-        </div>
+  
     </div>
 
   </div>
 
-  <div data-role="footer">
-    <h1>底部文本</h1>
-  </div>
+
 </div> 
 
-<div data-role="page" id="pagethree" class="pageOne" data-next='pagefour'>
-  <div data-role="header">
-    <h1>欢迎来到我的主页</h1>
-  </div>
-
+<div data-role="page" id="pagethree" class="pageOne" data-next='pagefour' data-prev="pagetwo">
+ 
   <div data-role="main" class="ui-content content">
-    <p>欢迎! 点击以下链接跳转到第二个页面。 </p>
-    <a href="#pagefour"  data-transition="slide">跳转到第二个页面</a>
       <div class="sectionThree" id="three">
-         <div class="title"><h1> 专业技能</h1>
+         <div class="skillTitle title"><h1> 专业技能</h1>
                             <span></span>
                             <h5>SKILL</h5>
          </div>
-         <div>前端的学习需要持之以恒，知识深度与广度都很重要。而前端开发的重中之重就是原生javascript的理解，而如今的思路必需有模块化，组件化，工程化</div>
+       
          <div class="skillInfo"> 
                  <ul data-role='listview' data-inset='true'>
-                  <li> <img src="infoIMG/html.png"> 
-                       <h3>HTML</h3>
+                  <li> <a href=""><img src="infoIMG/html.png">
+                       <div>
+                        <h3>HTML</h3>
                          <p> 熟悉web标准</p> 
-                           <p> 熟练运用html标签</p>
-                           <p>熟悉html5</p>  
-                       
+                          <p> 熟练运用html标签</p>
+                          <p>熟悉html5</p>  
+                       </div>
+                       </a>
                     
                   </li>
-                  <li> <img src="infoIMG/css.png"> 
-                       <h3>CSS</h3>
-                 
-                    
-                     <p> 熟练运用css以及css3 </p>
+                  <li> 
+                  <a href="">
+                  <img src="infoIMG/css.png"> 
+                    <div>
+                       <h3>CSS</h3> 
+                       <p> 熟练运用css以及css3 </p>
                        <p> 能处理浏览器对于css的兼容问题 </p>
+                    </div>
+                  </a>     
                    
                   </li>
                    <li> 
+                       <a href="">
                        <img src="infoIMG/js.png"> 
-                       <h3>JavaScript</h3>
-                       <img src="infoIMG/skill_flag.png">
+                       <div>
+                        <h3>JavaScript</h3>
                          <p> 掌握js原生用法 </p>
                          <p> 掌握jquery框架用法 </p>
                          <p>  了解jquery插件开发 和js组件开发 </p>
-                   
+                         </div>
+                     </a>
                   </li>
                </ul>
          </div>
@@ -197,79 +300,67 @@
 
   </div>
 
-  <div data-role="footer">
-    <h1>底部文本</h1>
-  </div>
+
 </div> 
-<div data-role="page" id="pagefour" class="pageOne" data-next='pagefive'>
-  <div data-role="header">
-    <h1>欢迎来到我的主页</h1>
-  </div>
+<div data-role="page" id="pagefour" class="pageOne" data-next='pagefive' data-prev="pagethree">
+
 
   <div data-role="main" class="ui-content content">
-    <p>欢迎! 点击以下链接跳转到第二个页面。 </p>
 
-    <a href="#pageone"  data-transition="slide">跳转到第二个页面</a>
         <div class="sectionFour" id="four">
-         <div class="jobTitle"><h1>我的经历</h1>
+         <div class="jobTitle title"><h1>我的经历</h1>
                                <span></span>
                              <h5>EXPERIENCE</h5>
          </div>
          <div class="jobContent">
-           <ul data-role='listview'>
-            <li> <a href="#myPanelOne" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">宏江商务服务公司</a></li>
-            <li> <a href="#myPanelTwo" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">迎海茶都有限公司</a></li>
-            <li> <a href="#myPanelThree" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">打开面板</a></li>
-           </ul>
-             
-        
-        
-         <div class="itemLeft" data-role='panel' id="myPanelOne">
-            <h2>宏江商务服务有限公司</h2>
-            <ul>
-             <li>2015.12-2016.9</li>
-             <li>负责PS图片制作</li>
+            <div data-role="collapsibleset">
+               <div data-role="collapsible" class="bigImg">
+               <h3>宏江商务服务有限公司</h3>
+             <ul>
+               <li>2015.12-2016.9</li>
+               <li>负责PS图片制作</li>
                <li>根据要求负责企业页面制作</li>
                <li>更新和维护网站</li>
                <li>工作之余不断学习前端和安卓，提高自己技术水平</li>
-            </ul>
-        </div>
-   
-        <div class="itemLeft" data-role='panel' id="myPanelTwo"> 
-            <h2>迎海茶都有限责任公司</h2>
-           
-             <ul>
+             </ul>
+             
+            </div>
+      <div data-role="collapsible" class="bigImg">
+        <h3> 迎海茶都有限责任公司</h3>
+            <ul>
                <li>2015.3-2015.12</li>
                <li>管理部</li>
                <li>负责商户的日常管理工作</li>
-                 <li>同期工作之余开始系统性的自学安卓和前端开发</li>
+               <li>同期工作之余开始系统性的自学安卓和前端开发</li>
              </ul>
-         </div>
-    
-         <div  class="tabItem last" data-role='panel' id="myPanelThree">
-           <h2>学习实践</h2>
-               <li>自学html、css、javascript和java</li>
-               <li>了解android原生移动开发和hybrid混合开发</li>
-               <li>已在腾讯平台上线一款天气应用<strong>云简天气</strong></li>
-               <li>模仿凡客网站做了一个demo</li>
-            <ul>
-        </div> 
-    </div> 
-  <div data-role="footer">
-    <h1>底部文本</h1>
+      </div>
+      <div data-role="collapsible" class="bigImg">
+        <h3>学习实践</h3>
+        <ul>
+           <li>自学html、css、javascript和java</li>
+           <li>了解android原生移动开发和hybrid混合开发</li>
+           <li>已在腾讯平台上线一款天气应用<strong>云简天气</strong></li>
+           <li>模仿凡客网站做了一个demo</li>
+        </ul>
+      </div> 
+
+        <div data-role="collapsible" >
+        <h3> 作品展示</h3>       
+            <a href="https://mrquan122.github.io/vanclDemo2/"  class="ui-btn ui-btn-inline"> <img src="infoIMG/demo_box1.jpg"></a>
+            <a href="https://mrquan122.github.io/vanclDemo1/"  class="ui-btn ui-btn-inline"> <img src="infoIMG/demo_box2.jpg"></a>
+            <a href="https://mrquan122.github.io/vanclDemo2/"  class="ui-btn ui-btn-inline"> <img src="infoIMG/demo_box3.jpg"></a>
+              
+      </div>
+    </div>
   </div>
 </div> 
 
-<div data-role="page" id="pagefive" class="pageOne">
-  <div data-role="header">
-    <h1>欢迎来到我的主页</h1>
-  </div>
-
+<div data-role="panel" id="myPanel" class="pageOne">
+ 
   <div data-role="main" class="ui-content content">
-    <p>欢迎! 点击以下链接跳转到第二个页面。 </p>
-    <a href="#pageone"  data-transition="slide">跳转到第二个页面</a>
+
     <div class="sectionFive" id="five">
-         <div class="demoTitle">
+         <div class="demoTitle title">
                <h1>我的作品</h1>
                 <span></span>
                 <h5>DEMO</h5>
@@ -287,9 +378,7 @@
 
   </div>
 
-  <div data-role="footer">
-    <h1>底部文本</h1>
-  </div>
+
 </div> 
 
 
